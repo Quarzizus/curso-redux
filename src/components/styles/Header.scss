@@ -1,0 +1,14 @@
+.Header {
+  background-color: rgb(233, 232, 232);
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  .Link {
+    h2 {
+      color: black;
+    }
+  }
+}
