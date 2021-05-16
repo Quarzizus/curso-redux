@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Layout from "../components/Layout";
 import Users from "../pages/Users";
 import Home from "../pages/Home";
+import Publications from "../pages/Publications";
 import "./App.scss";
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/users" component={Users} />
+          <Route exact path="/users/:userId" component={Publications} />
         </Switch>
       </Layout>
     </BrowserRouter>

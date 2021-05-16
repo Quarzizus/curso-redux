@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOADING, ERROR, TRAER_TODOS } from "../types/usersTypes";
+import { LOADING, ERROR, TRAER_TODOS } from "../types/publicationsTypes";
 
 export const traerTodos = () => async (dispatch) => {
   dispatch({
@@ -7,7 +7,7 @@ export const traerTodos = () => async (dispatch) => {
   });
   try {
     const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
+      `https://jsonplaceholder.typicode.com/posts/`
     );
     dispatch({
       type: TRAER_TODOS,
