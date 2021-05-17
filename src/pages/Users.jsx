@@ -5,17 +5,20 @@ import { connect } from "react-redux";
 import "./styles/Users.scss";
 import * as usersAction from "../actions/usersAction";
 
-const Users = ({ loading, traerTodos, users }) => {
+const Users = (props) => {
   useEffect(() => {
-    traerTodos();
+    if (!props.users.length) {
+      props.traerTodos();
+    }
   }, []);
 
-  if (loading) {
+  if (props.loading) {
     return <Spinner />;
   } else {
     return (
       <table className="default">
         <thead>
+          {console.log(props)}
           <tr>
             <th>N°</th>
             <th>Nombre</th>
@@ -24,7 +27,7 @@ const Users = ({ loading, traerTodos, users }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {props.users.map((user) => (
             <User key={user.id} userData={user} />
           ))}
         </tbody>

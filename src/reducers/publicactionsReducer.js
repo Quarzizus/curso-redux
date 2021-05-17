@@ -1,4 +1,4 @@
-import { LOADING, ERROR, TRAER_TODOS } from "../types/publicationsTypes";
+import { LOADING, ERROR, TRAER_POR_USUARIO } from "../types/publicationsTypes";
 
 const INITIAL_STATE = {
   publications: [],
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case TRAER_TODOS:
+    case TRAER_POR_USUARIO:
       return {
         ...state,
         publications: action.payload,

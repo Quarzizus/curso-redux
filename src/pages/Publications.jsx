@@ -5,16 +5,16 @@ import * as publicationsAction from "../actions/publicationsAction";
 
 // destructuring and rename
 const { traerTodos: usersTraerTodos } = usersAction;
-const { traerTodos: publicationsTraerTodos } = publicationsAction;
+const { traerPorUser: publicationsTraerPorUser } = publicationsAction;
 
 const Publications = (props) => {
   const userId = props.match.params.userId;
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!props.usersReducer.users.length) {
-      props.usersTraerTodos();
-      console.log(props);
+      await props.usersTraerTodos();
     }
+    props.publicationsTraerPorUser(userId);
   }, []);
 
   return (
@@ -34,7 +34,7 @@ const mapStateToProps = ({ usersReducer, publicationsReducer }) => {
 
 const mapDispatchToProps = {
   usersTraerTodos,
-  publicationsTraerTodos,
+  publicationsTraerPorUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Publications);
