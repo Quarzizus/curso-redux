@@ -8,19 +8,22 @@ const { traerTodos: usersTraerTodos } = usersAction;
 const { traerPorUser: publicationsTraerPorUser } = publicationsAction;
 
 const Publications = (props) => {
-  const userId = props.match.params.userId;
-
   useEffect(async () => {
+    const { usersTraerTodos, publicationsTraerPorUser } = props;
+    const userId = props.match.params.userId;
+    console.log(userId);
     if (!props.usersReducer.users.length) {
-      await props.usersTraerTodos();
+      await usersTraerTodos();
     }
-    props.publicationsTraerPorUser(userId);
+    if (!("publicactionsKey" in props.usersReducer.users[userId])) {
+      publicationsTraerPorUser(userId);
+    }
   }, []);
 
   return (
     <div>
       {console.log(props)}
-      <h1>{userId}</h1>
+      <h1>Hola</h1>
     </div>
   );
 };
