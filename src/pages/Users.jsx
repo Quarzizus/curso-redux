@@ -13,12 +13,17 @@ const Users = (props) => {
   }, []);
 
   if (props.loading) {
-    return <Spinner />;
+    return (
+      <>
+        {console.log(props.loading)}
+        <Spinner />
+      </>
+    );
   } else {
     return (
       <table className="default">
         <thead>
-          {console.log(props)}
+          {console.log(props.loading)}
           <tr>
             <th>N°</th>
             <th>Nombre</th>
