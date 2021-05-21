@@ -15,7 +15,6 @@ const Users = (props) => {
   if (props.loading) {
     return (
       <>
-        {console.log(props.loading)}
         <Spinner />
       </>
     );
@@ -23,7 +22,6 @@ const Users = (props) => {
     return (
       <table className="default">
         <thead>
-          {console.log(props.loading)}
           <tr>
             <th>N°</th>
             <th>Nombre</th>

@@ -12,28 +12,25 @@ export const traerPorUser = (key) => async (dispatch, getState) => {
     // getState
     const { users } = getState().usersReducer;
     const { publications } = getState().publicationsReducer;
-    const user_id = users[key].id;
 
     const response = await axios.get(
-      `https://jsonplaceholder.typicode.com/posts?userId=${user_id}`
+      `https://jsonplaceholder.typicode.com/posts?userId=${key}`
     );
     // All publications
     const publicationsUdpdate = [...publications, response.data];
     // Last publication
-    const publicactionsKey = publicationsUdpdate.length - 1;
+    const publicationsKey = publicationsUdpdate.length - 1;
     // get users
     const usersUpdate = [...users];
     // currently user updated
-    usersUpdate[key] = {
-      ...users[key],
-      publicactionsKey: publicactionsKey,
+    usersUpdate[key - 1] = {
+      ...users[key - 1],
+      publicationsKey: publicationsKey,
     };
-
     dispatch({
       type: USERS_TRAER_TODOS,
       payload: usersUpdate,
     });
-
     dispatch({
       type: TRAER_POR_USUARIO,
       payload: publicationsUdpdate,

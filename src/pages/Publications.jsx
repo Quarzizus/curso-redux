@@ -9,43 +9,97 @@ const { traerTodos: usersTraerTodos } = usersAction;
 const { traerPorUser: publicationsTraerPorUser } = publicationsAction;
 
 const Publications = (props) => {
-  const {
-    usersTraerTodos,
-    publicationsTraerPorUser,
-    usersReducer,
-    publicationsReducer,
-    match: {
-      params: { userId },
-    },
-  } = props;
-  const currentlyUser = usersReducer.users[userId];
   useEffect(async () => {
-    if (!usersReducer.users.length) {
-      await usersTraerTodos();
-    }
-    if (!("publicactionsKey" in currentlyUser)) {
-      publicationsTraerPorUser(userId);
-    }
-    if (usersReducer.error) {
-      return;
-    }
+    const {
+      usersReducer: { users, error },
+      publicationsTraerPorUser,
+      usersTraerTodos,
+      match: {
+        params: { userId },
+      },
+    } = props;
+
+    const currentlyUser = users[userId - 1];
+    // Length
+    !users.length ? await usersTraerTodos() : null;
+    // PublicationsKey
+    !("publicationsKey" in currentlyUser)
+      ? publicationsTraerPorUser(userId)
+      : null;
+    // Error Users
+    error ? null : null;
   }, []);
 
-  if (publicationsReducer.loading || !usersReducer.users.length) {
-    return (
-      <>
-        {console.log(publicationsReducer.loading)}
-        <Spinner />
-      </>
-    );
-  } else {
-    return (
-      <div>
-        <h1>Holi {currentlyUser.name}</h1>
-        {console.log(publicationsReducer)}
-      </div>
-    );
-  }
+  const usersRender = () => {
+    const {
+      usersReducer: { users, error, loading },
+      match: {
+        params: { userId },
+      },
+    } = props;
+
+    const currentlyUser = users[userId - 1];
+    //Error
+    error ? null : null;
+    //Render
+    if (!users.length || loading || !currentlyUser) {
+      return <Spinner />;
+    } else {
+      return (
+        <>
+          {console.log(currentlyUser.name)}
+          <h2> Hola {currentlyUser.name} !</h2>
+        </>
+      );
+    }
+  };
+
+  const publicationsRender = () => {
+    const {
+      publicationsReducer: { publications },
+      publicationsReducer,
+      usersReducer,
+      usersReducer: { users },
+      match: {
+        params: { userId },
+      },
+    } = props;
+    const currentlyUser = users[userId - 1];
+    const key = currentlyUser.publicationsKey;
+    // Error User
+    usersReducer.error ? console.log(currentlyUser) : null;
+    // Loading Publications
+    publicationsReducer.loading ||
+    !users.length ||
+    !("publicationsKey" in currentlyUser) ? (
+      <Spinner />
+    ) : null;
+
+    // Render
+    if (!publications.length || !publications[key]) {
+      return <Spinner />;
+    } else {
+      return (
+        <div>
+          {console.log(currentlyUser)}
+          console.log(publications[key])
+          {publications[key].map((publication) => (
+            <div key={publication.id}>
+              <h2>{publication.title}</h2>
+              <p>{publication.body}</p>
+            </div>
+          ))}
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div>
+      {usersRender()}
+      {publicationsRender()}
+    </div>
+  );
 };
 
 const mapStateToProps = ({ usersReducer, publicationsReducer }) => {
