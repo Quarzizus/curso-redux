@@ -12,19 +12,17 @@ const Publications = (props) => {
   useEffect(async () => {
     const {
       usersReducer: { users, error },
-      publicationsTraerPorUser,
       usersTraerTodos,
+      publicationsTraerPorUser,
       match: {
         params: { userId },
       },
     } = props;
-
     const currentlyUser = users[userId - 1];
     // Length
     !users.length ? await usersTraerTodos() : null;
-    // PublicationsKey
     !("publicationsKey" in currentlyUser)
-      ? publicationsTraerPorUser(userId)
+      ? await publicationsTraerPorUser(userId)
       : null;
     // Error Users
     error ? null : null;
@@ -37,12 +35,12 @@ const Publications = (props) => {
         params: { userId },
       },
     } = props;
-
     const currentlyUser = users[userId - 1];
     //Error
     error ? null : null;
+
     //Render
-    if (!users.length || loading || !currentlyUser) {
+    if (!users.length || loading) {
       return <Spinner />;
     } else {
       return (
@@ -56,34 +54,31 @@ const Publications = (props) => {
 
   const publicationsRender = () => {
     const {
-      publicationsReducer: { publications },
-      publicationsReducer,
-      usersReducer,
-      usersReducer: { users },
+      usersReducer: { users, error, loading: usersLoading },
+      publicationsReducer: { publications, loading },
       match: {
         params: { userId },
       },
     } = props;
     const currentlyUser = users[userId - 1];
-    const key = currentlyUser.publicationsKey;
-    // Error User
-    usersReducer.error ? console.log(currentlyUser) : null;
-    // Loading Publications
-    publicationsReducer.loading ||
-    !users.length ||
-    !("publicationsKey" in currentlyUser) ? (
-      <Spinner />
-    ) : null;
 
+    // Error User
+    error ? null : null;
+    if (!users.length || usersLoading) {
+      return <Spinner />;
+    }
     // Render
-    if (!publications.length || !publications[key]) {
+    if (
+      loading ||
+      !publications.length ||
+      !("publicationsKey" in users[userId - 1])
+    ) {
       return <Spinner />;
     } else {
       return (
         <div>
           {console.log(currentlyUser)}
-          console.log(publications[key])
-          {publications[key].map((publication) => (
+          {publications[currentlyUser.publicationsKey].map((publication) => (
             <div key={publication.id}>
               <h2>{publication.title}</h2>
               <p>{publication.body}</p>
