@@ -16,8 +16,14 @@ export const traerPorUser = (key) => async (dispatch, getState) => {
     const response = await axios.get(
       `https://jsonplaceholder.typicode.com/posts?userId=${key}`
     );
+    const newResponse = response.data.map((publication) => ({
+      ...publication,
+      comments: [],
+      open: false,
+    }));
+
     // All publications
-    const publicationsUdpdate = [...publications, response.data];
+    const publicationsUdpdate = [...publications, newResponse];
     // Last publication
     const publicationsKey = publicationsUdpdate.length - 1;
     // get users

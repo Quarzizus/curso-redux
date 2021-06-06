@@ -60,7 +60,7 @@ const Publications = (props) => {
         params: { userId },
       },
     } = props;
-    const currentlyUser = users[userId - 1];
+    const { publicationsKey } = users[userId - 1];
 
     // Error User
     error ? null : null;
@@ -75,19 +75,16 @@ const Publications = (props) => {
     ) {
       return <Spinner />;
     } else {
-      return (
-        <div>
-          {console.log(currentlyUser)}
-          {publications[currentlyUser.publicationsKey].map((publication) => (
-            <div key={publication.id}>
-              <h2>{publication.title}</h2>
-              <p>{publication.body}</p>
-            </div>
-          ))}
-        </div>
-      );
+      return showInfo(publications, publicationsKey);
     }
   };
+  const showInfo = (publications, publicationsKey) =>
+    publications[publicationsKey].map((publication) => (
+      <div key={publication.id}>
+        <h2>{publication.title}</h2>
+        <p>{publication.body}</p>
+      </div>
+    ));
 
   return (
     <div>
